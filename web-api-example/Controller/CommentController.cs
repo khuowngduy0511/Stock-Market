@@ -10,7 +10,7 @@ namespace web_api_examlpe.Controller
 {
     [Route("api/comment")]
     [ApiController]
-    public class StockController : ControllerBase
+    public class CommentController : ControllerBase
     {
         [HttpGet("{StockId}")]
         public IActionResult GetbyID([FromRoute] int StockId) {
