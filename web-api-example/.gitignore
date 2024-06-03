@@ -1,6 +1,8 @@
 # .NET Core / .NET 5+ / .NET 8
 bin/
 obj/
+/bin
+/obj
 project.lock.json
 project.fragment.lock.json
 artifacts/
