@@ -5,7 +5,10 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using web_api_examlpe.Data;
+using web_api_examlpe.Mappers;
 using web_api_examlpe.Models;
+
+ 
 
 namespace web_api_examlpe.Controller
 {
@@ -20,7 +23,8 @@ namespace web_api_examlpe.Controller
         }
         [HttpGet]
         public IActionResult GetAll(){
-            var stocks = _context.Stocks.ToList();
+            var stocks = _context.Stocks.ToList()
+            .Select(s => s.ToStockDto());
 
             return Ok(stocks);
         }
@@ -33,7 +37,7 @@ namespace web_api_examlpe.Controller
 
                 return NotFound();
             }
-            return Ok(stock);
+            return Ok(stock.ToStockDto());
         }
 
     }   
