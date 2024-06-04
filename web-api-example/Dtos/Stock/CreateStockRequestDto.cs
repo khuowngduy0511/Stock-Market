@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace web_api_examlpe.Dtos.Stock
 {
-    public class StockDto 
+    public class CreateStockRequestDto
     {
         public int Id { get; set; }
         public string Symbol { get; set; } = string.Empty;
@@ -15,6 +15,4 @@ namespace web_api_examlpe.Dtos.Stock
         public string Industry { get; set; } = string.Empty;
         public long MarketCap { get; set; }
     }
-
-    
 }

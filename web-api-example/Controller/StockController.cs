@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using web_api_examlpe.Data;
+using web_api_examlpe.Dtos.Stock;
 using web_api_examlpe.Mappers;
 using web_api_examlpe.Models;
 
@@ -38,6 +39,14 @@ namespace web_api_examlpe.Controller
                 return NotFound();
             }
             return Ok(stock.ToStockDto());
+        }
+
+        [HttpPost]
+        public IActionResult Create([FromBody] CreateStockRequestDto stockDto) {
+            var stockModel = stockDto.ToStockFromCreateDTO();
+            _context.Stocks.Add(stockModel);
+            _context.SaveChanges();
+            return CreatedAtAction(nameof(GetbyID), new { id = stockModel.Id}, stockModel.ToStockDto());
         }
 
     }   
