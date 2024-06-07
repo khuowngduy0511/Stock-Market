@@ -8,10 +8,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using web_api_examlpe.Data;
 using web_api_examlpe.Dtos.Stock;
+using web_api_examlpe.Interfaces;
 using web_api_examlpe.Mappers;
 using web_api_examlpe.Models;
+using web_api_examlpe.Repository;
 
- 
+
 
 namespace web_api_examlpe.Controller
 {
@@ -20,13 +22,16 @@ namespace web_api_examlpe.Controller
     public class StockController : ControllerBase
     {
         private readonly ApplicationDBContext _context;
-        public StockController(ApplicationDBContext context)
+        private readonly IStockRepository _stockRepo;
+
+        public StockController(ApplicationDBContext context, IStockRepository stockRepo)
         {
+            _stockRepo = stockRepo;
             _context = context;
         }
         [HttpGet]
         public async Task<IActionResult> GetAll(){
-            var stocks = await _context.Stocks.ToListAsync();
+            var stocks = await _stockRepo.GetAllAsync();
 
             var stockDto = stocks.Select(s => s.ToStockDto());
 
