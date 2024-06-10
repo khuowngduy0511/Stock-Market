@@ -26,7 +26,7 @@ namespace web_api_examlpe.Repository
             return stockModel;
         }
 
-        public async Task<Stock> DeleteAsync(int id)
+        public async Task<Stock?> DeleteAsync(int id)
         {
             var stockModel = await _context.Stocks.FirstOrDefaultAsync(x => x.Id == id);
 
@@ -50,7 +50,12 @@ namespace web_api_examlpe.Repository
             return await _context.Stocks.Include(c => c.Comments).FirstOrDefaultAsync(i => i.Id == id);
         }
 
-        public async Task<Stock> UpdateAsync(int id, UpdateStockRequestDto stockDto)
+        public Task<bool> StockExists(int id)
+        {
+            return _context.Stocks.AnyAsync(s => s.Id == id); 
+        }
+
+        public async Task<Stock?> UpdateAsync(int id, UpdateStockRequestDto stockDto)
         {
             var existingStock = await _context.Stocks.FirstOrDefaultAsync(x => x.Id == id);
 

@@ -7,17 +7,27 @@ using web_api_examlpe.Models;
 
 namespace web_api_examlpe.Mappers
 {
+ 
     public static class CommentMapper
     {
-        public static CommentDto ToCommentDto(this Comment commentModel) 
+        public static CommentDto ToCommentDto(this Comment commentModel)
+    {
+        return new CommentDto
         {
-            return new CommentDto 
+            id = commentModel.id,
+            Title = commentModel.Title,
+            Content = commentModel.Content,
+            CreatedOn = commentModel.CreatedOn,
+            StockId = commentModel.StockId
+        };
+    }   
+        public static Comment ToCommentFromCreate(this CreateCommentDto commentDto, int stockId) 
+        {
+            return new Comment
             {
-                id = commentModel.id,
-                Title = commentModel.Title,
-                Content = commentModel.Content,
-                CreatedOn = commentModel.CreatedOn,
-                StockId = commentModel.StockId
+                Title = commentDto.Title,
+                Content = commentDto.Content,
+                StockId = stockId
             };
 
         }
