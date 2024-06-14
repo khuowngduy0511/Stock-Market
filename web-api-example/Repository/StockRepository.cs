@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using web_api_examlpe.Data;
 using web_api_examlpe.Dtos.Stock;
+using web_api_examlpe.Helpers;
 using web_api_examlpe.Interfaces;
 using web_api_examlpe.Models;
 
@@ -40,9 +41,18 @@ namespace web_api_examlpe.Repository
             return stockModel;
         }
 
-        public async Task<List<Stock>> GetAllAsync()
+        public async Task<List<Stock>> GetAllAsync(QueryObject query)
         {
-            return await _context.Stocks.Include(c => c.Comments).ToListAsync();
+            var stocks = _context.Stocks.Include(c => c.Comments).AsQueryable();
+            if(!string.IsNullOrWhiteSpace(query.CompanyName))
+            {
+                stocks = stocks.Where(s => s.CompanyName.Contains(query.CompanyName));
+            }
+            if(!string.IsNullOrWhiteSpace(query.Symbol))
+            {
+                stocks = stocks.Where(s => s.Symbol.Contains(query.Symbol));
+            }
+            return await stocks.ToListAsync();
         }
 
         public async Task<Stock?> GetByIdAsync(int id)
