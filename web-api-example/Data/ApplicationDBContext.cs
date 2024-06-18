@@ -2,12 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using web_api_examlpe.Models;
 
 namespace web_api_examlpe.Data
 {
-    public class ApplicationDBContext : DbContext
+    public class ApplicationDBContext : IdentityDbContext<AppUser>
     {
         public ApplicationDBContext(DbContextOptions dbContextOptions)
         : base(dbContextOptions)
