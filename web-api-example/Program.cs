@@ -7,6 +7,7 @@ using web_api_examlpe.Data;
 using web_api_examlpe.Interfaces;
 using web_api_examlpe.Models;
 using web_api_examlpe.Repository;
+using web_api_examlpe.Service;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -62,6 +63,7 @@ builder.Services.AddAuthentication(options =>
 
 builder.Services.AddScoped<IStockRepository, StockRepository>();
 builder.Services.AddScoped<ICommentRepository, CommentRepository>();
+builder.Services.AddScoped<ITokenService, TokenService>();
 
 
 var app = builder.Build();

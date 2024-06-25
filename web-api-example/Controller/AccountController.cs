@@ -11,6 +11,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using web_api_examlpe.Dtos.Account;
 using web_api_examlpe.Models;
+using web_api_examlpe.Service;
+using web_api_examlpe.Interfaces;
 
 namespace web_api_examlpe.Controller
 {
@@ -19,9 +21,11 @@ namespace web_api_examlpe.Controller
     public class AccountController : ControllerBase
     {
         private readonly UserManager<AppUser> _userManager;
-        public AccountController(UserManager<AppUser> userManager)
+        private readonly ITokenService _TokenService;
+        public AccountController(UserManager<AppUser> userManager, ITokenService tokenService)
         {
             _userManager = userManager;
+            _TokenService = tokenService;
         }
             
         [HttpPost("register")]
@@ -45,11 +49,18 @@ namespace web_api_examlpe.Controller
                 var roleResult = await _userManager.AddToRoleAsync(appUser, "User");
                 if(roleResult.Succeeded)
                 {
-                return Ok("User created");
+                    return Ok(
+                        new NewUserDto
+                        {
+                            UserName = appUser.UserName,
+                            Email = appUser.Email,
+                            Token = _TokenService.CreateToken(appUser)
+                        }
+                    );
                 }
                 else 
                 {
-                return StatusCode(500, roleResult.Errors);
+                    return StatusCode(500, roleResult.Errors);
                 }
             }
                 else
